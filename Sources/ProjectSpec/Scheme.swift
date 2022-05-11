@@ -103,6 +103,8 @@ public struct Scheme: Equatable {
         public static let disableMainThreadCheckerDefault = false
         public static let stopOnEveryMainThreadCheckerIssueDefault = false
         public static let debugEnabledDefault = true
+        public static let queueDebuggingEnabledDefault = true
+
 
         public var config: String?
         public var commandLineArguments: [String: Bool]
@@ -120,6 +122,7 @@ public struct Scheme: Equatable {
         public var executable: String?
         public var storeKitConfiguration: String?
         public var customLLDBInit: String?
+        public var queueDebuggingEnabled: Bool
         public var macroExpansion: String?
 
         public init(
@@ -139,6 +142,7 @@ public struct Scheme: Equatable {
             simulateLocation: SimulateLocation? = nil,
             storeKitConfiguration: String? = nil,
             customLLDBInit: String? = nil,
+            queueDebuggingEnabled: Bool = queueDebuggingEnabledDefault,
             macroExpansion: String? = nil
         ) {
             self.config = config
@@ -156,6 +160,7 @@ public struct Scheme: Equatable {
             self.simulateLocation = simulateLocation
             self.storeKitConfiguration = storeKitConfiguration
             self.customLLDBInit = customLLDBInit
+            self.queueDebuggingEnabled = queueDebuggingEnabled
             self.macroExpansion = macroExpansion
         }
     }
@@ -430,6 +435,7 @@ extension Scheme.Run: JSONObjectConvertible {
         }
         customLLDBInit = jsonDictionary.json(atKeyPath: "customLLDBInit")
         macroExpansion = jsonDictionary.json(atKeyPath: "macroExpansion")
+        queueDebuggingEnabled = jsonDictionary.json(atKeyPath: "queueDebuggingEnabled") ?? Scheme.Run.queueDebuggingEnabledDefault
     }
 }
 
@@ -469,6 +475,9 @@ extension Scheme.Run: JSONEncodable {
         }
         if let customLLDBInit = customLLDBInit {
             dict["customLLDBInit"] = customLLDBInit
+        }
+        if queueDebuggingEnabled != Scheme.Run.queueDebuggingEnabledDefault {
+            dict["queueDebuggingEnabled"] = queueDebuggingEnabled
         }
         return dict
     }

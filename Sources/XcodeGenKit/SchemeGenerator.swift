@@ -316,7 +316,8 @@ public class SchemeGenerator {
             region: scheme.run?.region,
             launchAutomaticallySubstyle: scheme.run?.launchAutomaticallySubstyle ?? launchAutomaticallySubstyle(for: schemeTarget),
             storeKitConfigurationFileReference: storeKitConfigurationFileReference,
-            customLLDBInitFile: scheme.run?.customLLDBInit
+            customLLDBInitFile: scheme.run?.customLLDBInit,
+            queueDebuggingEnabled: scheme.run?.queueDebuggingEnabled ?? Scheme.Run.queueDebuggingEnabledDefault
         )
 
         let profileAction = XCScheme.ProfileAction(
